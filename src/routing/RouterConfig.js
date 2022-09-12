@@ -6,6 +6,7 @@ import { HOME, WATCHLIST, SHOW } from "constants/routes";
 const Header = lazy(() => import("components/Header"));
 const Home = lazy(() => import("pages/Home"));
 const ShowDetail = lazy(() => import("pages/ShowDetail"));
+const WatchList = lazy(() => import("pages/WatchList"));
 
 const RouterConfig = () => {
   return (
@@ -14,6 +15,7 @@ const RouterConfig = () => {
       <Routes>
         <Route path={HOME} element={<Home />} />
         <Route path={SHOW} element={<ShowDetail />} />
+        <Route path={WATCHLIST} element={<WatchList />} />
       </Routes>
     </Suspense>
   );

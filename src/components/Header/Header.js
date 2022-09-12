@@ -1,95 +1,103 @@
 /* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
-
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useState } from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
-import { Search, SearchIconWrapper, StyledInputBase } from "./Header.styles";
-import axios from "axios";
+import React, { useEffect } from "react";
+import {
+  TextField,
+  Toolbar,
+  Box,
+  Button,
+  AppBar,
+} from "@mui/material";
 import { useDispatch } from "react-redux";
-import { setMovie } from "../../redux/movie.slice";
+import { setMovie, setName } from "redux/features/movie.slice";
+import { setThemeMode } from "redux/features/theme.slice";
+import { useTheme } from "@mui/material/styles";
+import { axiosTMDB } from "utils/axios";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { css } from "@emotion/react";
-// import { Brightness4Icon, Brightness7Icon } from '@mui/icons-material';
-
-// import { useTheme } from '@mui/material/styles';
-
+import { useLocation } from "react-router-dom";
+import MaterialUISwitch from "components/shared/Switch/Switch";
 export default function Header() {
-  const [type, setType] = useState(0);
-  const [searchText, setSearchText] = useState("aaa");
-  const [page, setPage] = useState(1);
-  const [content, setContent] = useState([]);
-  const [numOfPages, setNumOfPages] = useState();
   const dispatch = useDispatch();
-  // const theme = useTheme();
+  const theme = useTheme();
+  const { name } = useSelector((state) => state.movieDb);
+  const location = useLocation();
   const fetchSearch = async () => {
+    let params = { query: name };
     try {
-      const { data } = await axios.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&query=${searchText}&page=1&include_adult=false`
-      );
-      setContent(data.results);
-      setNumOfPages(data.total_pages);
-      dispatch(setMovie(content));
-      // console.log(data);
+      const { data } = await axiosTMDB.get(`/search/tv`, { params });
+
+      dispatch(setMovie(data.results));
+      console.log(data);
     } catch (error) {
       console.error(error);
     }
   };
+
+  const changeTheme = () => {
+    theme.palette.mode === "dark"
+      ? dispatch(setThemeMode("light"))
+      : dispatch(setThemeMode("dark"));
+  };
+  const storeSerachingText = (e) => {
+    dispatch(setName(e.target.value));
+  };
   useEffect(() => {
-    if (searchText) {
-      setTimeout(() => {
+    if (name) {
+      const dataFetch = setTimeout(() => {
         window.scroll(0, 0);
         fetchSearch();
-      }, [500]);
+      }, 500);
+      return () => clearTimeout(dataFetch);
     } else dispatch(setMovie([]));
-    // eslint-disable-next-line
-  }, [searchText]);
+  }, [name]);
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box>
       <AppBar position="static">
         <Toolbar>
-          <Link to={"/"} css={{
-            color: "inherit",
-            textDecoration: "none"
-          }}>
-            <Typography
-              variant="h6"
-              noWrap
-              sx={{ display: { xs: "none", sm: "block" }, marginRight: 2 }}
+          <TextField
+            id="outlined-basic"
+            label="Search"
+            variant="outlined"
+            onChange={(e) => storeSerachingText(e)}
+            sx={{ marginLeft: "auto" }}
+          />
+
+          {location.pathname === "/watchlist" ? (
+            <Button
+              variant="contained"
+              color="error"
+              sx={{
+                marginLeft: "auto",
+              }}
             >
-              Home
-            </Typography>
-          </Link>
-          <Link to={"/watchList"} css={{
-            color: "inherit",
-            textDecoration: "none"
-          }}>
-            <Typography
-              variant="h6"
-              noWrap
-              sx={{ display: { xs: "none", sm: "block" } }}
+              <Link to={"/"} css={{ color: "inherit", textDecoration: "none" }}>
+                Home
+              </Link>
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="error"
+
+              sx={[
+                {
+                  marginLeft: "auto",
+                },
+              ]}
             >
-              List
-            </Typography>
-          </Link>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-              onChange={(event) => setSearchText(event.target.value)}
-            />
-          </Search>
-          {/* <IconButton sx={{ ml: 1 }} color="inherit">
-            {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-          </IconButton> */}
+              <Link
+                to={"/watchlist"}
+                css={{ color: "inherit", textDecoration: "none" }}
+              >
+                Watch List
+              </Link>
+            </Button>
+          )}
+
+          <MaterialUISwitch onClick={changeTheme} defaultChecked />
         </Toolbar>
       </AppBar>
     </Box>

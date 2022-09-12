@@ -1,6 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
 
 /** @jsxImportSource @emotion/react */
+import React from "react";
 
 import {
   Box,
@@ -8,53 +9,129 @@ import {
   CardActionArea,
   CardContent,
   CardMedia,
-  Grid,
   Typography,
+  Button,
 } from "@mui/material";
-import React from "react";
 import { css } from "@emotion/react";
-import CircularProgressWithLabel from "../Progress/CircularProgressWithLabel";
-import { Link } from "react-router-dom";
+import PropTypes from 'prop-types'
 
-const MovieCard = ({ title, img, releaseDate, voteAverage, id }) => {
+// import { useHistory  } from "react-router-dom";
+import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
+import DoDisturbOnOutlinedIcon from "@mui/icons-material/DoDisturbOnOutlined";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setWatchList, removeFromWatchList } from "redux/features/movie.slice";
+import { useTheme } from "@mui/material/styles";
+import { Link } from "react-router-dom";
+import CircularProgressWithLabel from "../Progress/CircularProgressWithLabel";
+
+const MovieCard = ({ title, img, id, movieData, firstAirDate, voteAverage }) => {
+  const dispatch = useDispatch();
+  const theme = useTheme();
+  const { watchList } = useSelector((state) => state.movieDb);
+  const addToWatchList = () => {
+    dispatch(setWatchList(movieData));
+  };
+  const removeMovie = () => {
+    dispatch(removeFromWatchList(id));
+  };
   return (
-    <Grid item xs={12} sm={6} md={4} lg={3}>
-      <Link to={{
-        pathname: `/show/${id}`,
-      }}
-        css={{
-          color: "inherit",
-          textDecoration: "none"
-        }}
+
+    <Card sx={{ maxWidth: 345 }}>
+      <CardActionArea>
+        <Link
+          to={{
+            pathname: `/show/${id}`,
+          }}
+          css={{
+            color: "inherit",
+            textDecoration: "none",
+          }}
+        >
+          <CardMedia
+            component="img"
+            height="240"
+            image={img}
+            alt="green iguana"
+          />
+          <Box
+            sx={{
+              height: 40,
+              width: "100%",
+              position: "absolute",
+              left: 0,
+              bottom: 0,
+              backgroundImage:
+                "linear-gradient(180deg,transparent,rgba(37,37,37,.61),#111)",
+            }}
+          /></Link>
+      </CardActionArea>
+      <CardContent
+
       >
-        <Card sx={{ maxWidth: 345 }}>
-          <CardActionArea>
-            <CardMedia
-              component="img"
-              height="140"
-              image={img}
-              alt="green iguana"
-            />
-            <CardContent sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between'
-            }}>
-              <Box>
-                <Typography gutterBottom variant="h5" component="div">
-                  {title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {releaseDate}
-                </Typography>
-              </Box>
-              {/* <CircularProgressWithLabel value={voteAverage} /> */}
-            </CardContent>
-          </CardActionArea>
-        </Card>
-      </Link>
-    </Grid >
+
+        <Link
+          to={{
+            pathname: `/show/${id}`,
+          }}
+          css={{
+            color: "inherit",
+            textDecoration: "none",
+          }}
+        >
+          <Typography variant="h6" gutterBottom>
+            {title}
+          </Typography>
+        </Link>
+        <Box sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center"
+        }}>
+          {firstAirDate && <Typography variant="subtitle2" sx={{ color: "#bbafaf" }}>
+            {firstAirDate}</Typography>}
+          {voteAverage !== 0 && <CircularProgressWithLabel value={voteAverage * 10} />}
+
+        </Box>
+        {watchList.some((element) => element.id === id) ? (
+          <Button
+            variant="text"
+            onClick={removeMovie}
+            sx={[
+              {
+                paddingLeft: 0,
+                gap: 1,
+                color: theme.palette.mode === "dark" ? "white" : "black",
+              },
+            ]}
+          >
+            <DoDisturbOnOutlinedIcon /> remove from watchlist
+          </Button>
+        ) : (
+          <Button
+            variant="text"
+            onClick={addToWatchList}
+            sx={{
+              color: theme.palette.mode === "dark" ? "white" : "black"
+              , paddingLeft: 0, gap: 1
+            }}
+          >
+            <AddCircleOutlinedIcon /> Add to watchlist
+          </Button>
+        )}
+
+      </CardContent>
+    </Card>
 
   );
 };
+
+MovieCard.propTypes = {
+  title: PropTypes.string,
+  img: PropTypes.string,
+  id: PropTypes.number,
+  voteAverage: PropTypes.number,
+  firstAirDate: PropTypes.string,
+  movieData: PropTypes.object
+}
 export default MovieCard;

@@ -7,7 +7,7 @@ let lightTheme = createTheme({
         mode: "light",
         ...globalTheme("light").palette,
         background: {
-            default: "red",
+            default: "#ffffff",
         },
     },
 });

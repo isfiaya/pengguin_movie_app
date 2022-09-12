@@ -2,46 +2,53 @@
 
 /** @jsxImportSource @emotion/react */
 
-import { Grid } from "@mui/material";
-import React, { useEffect } from "react";
-import { css } from "@emotion/react";
-import { axiosTMDB } from "utils/axios";
+import { Grid, Typography } from "@mui/material";
+import React from "react";
+
 import { useSelector } from "react-redux";
 import MovieCard from "../../components/shared/Card/index";
 import Container from "@mui/material/Container";
 import ImageNotFound from "../../assets/image_not_available.png";
-import { Link } from "react-router-dom";
+import BASE_URL from 'constants/BaseUrl'
+
+
 const Home = () => {
-  const movies = useSelector((state) => state.movieDb.movie);
-  const BASE_URL = "https://image.tmdb.org/t/p/original/";
-  // console.log("movie", movies);
-  // useEffect(() => {
-  //   axiosTMDB.get("/movie/550").then((res) => {
-  //     console.log(res);
-  //   });
-  // }, []);
+  const { movies, name } = useSelector((state) => state.movieDb);
+
   return (
     <Container sx={{ marginTop: 4 }}>
+      {name && <Typography variant="h4" align="center" gutterBottom  >
+        You are seraching for "{name}"
+      </Typography>}
+      {/* {name && !movies.length ? <Typography variant="h4" align="center">
+        No results for your query {name}
+      </Typography> : null} */}
+      {!name && <Typography variant="h4" align="center">
+        start searching
+      </Typography>}
+
+
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         {movies.length ? (
           movies.map((movie) => (
-            <MovieCard
-              title={movie.title}
-              img={
-                movie.poster_path
-                  ? `${BASE_URL}${movie.poster_path}`
-                  : ImageNotFound
-              }
-              releaseDate={movie.release_date}
-              voteAverage={movie.vote_average}
-              key={movie.id}
-              id={movie.id}
-            />
+            <Grid item xs={12} sm={6} md={4} lg={3} key={movie.id}>
+              <MovieCard
+                title={movie.name}
+                img={
+                  movie.poster_path
+                    ? `${BASE_URL}${movie.backdrop_path || movie.poster_path}`
+                    : ImageNotFound
+                }
+                firstAirDate={movie.first_air_date}
+                voteAverage={movie.vote_average}
+                id={movie.id}
+                movieData={movie}
+
+              />
+            </Grid>
           ))
-        ) : (
-          <p>there no movie </p>
-        )}
-      </Grid>
+        ) : null}
+      </Grid >
     </Container>
   );
 };
