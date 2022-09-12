@@ -27,8 +27,7 @@ export default function Header() {
     let params = { query: name };
     try {
       const { data } = await axiosTMDB.get(`/search/tv`, { params });
-
-      dispatch(setMovie(data.results));
+      dispatch(setMovie(data));
       console.log(data);
     } catch (error) {
       console.error(error);
