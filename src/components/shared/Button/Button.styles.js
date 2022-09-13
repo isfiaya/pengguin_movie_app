@@ -1,45 +1,14 @@
-import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import { grey } from '@mui/material/colors';
 
 
-export const ButtonStyle = styled(Box)(({ theme }) => ({
-    borderRadius: 5,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
+const ColorButton = styled(Button)(({ theme }) => ({
+    color: theme.palette.getContrastText(grey[700]),
+    backgroundColor: grey[700],
     '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: "auto",
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-
-        width: 'auto',
+        backgroundColor: grey[700],
     },
 }));
 
-export const SearchIconWrapper = styled(Box)(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-
-}));
-
-export const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            width: '12ch',
-            '&:focus': {
-                width: '20ch',
-            },
-        },
-    },
-}));
+export default ColorButton
