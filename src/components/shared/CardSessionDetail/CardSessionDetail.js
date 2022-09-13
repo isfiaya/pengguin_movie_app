@@ -3,11 +3,11 @@ import { Grid, Typography, CardMedia } from "@mui/material";
 import React from "react";
 import BASE_URL from 'constants/BaseUrl'
 import ImageNotFound from "assets/image_not_available.png";
-import { useTheme } from "@mui/material/styles";
+
 
 function CardSessionDetail(props) {
   const { episodeNumber, stillPath, name, overview } = props
-  const theme = useTheme()
+
   return (
     <Grid
       container

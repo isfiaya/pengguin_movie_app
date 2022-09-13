@@ -45,7 +45,6 @@ export default function Header() {
   useEffect(() => {
     if (name) {
       const dataFetch = setTimeout(() => {
-        window.scroll(0, 0);
         fetchSearch();
       }, 500);
       return () => clearTimeout(dataFetch);

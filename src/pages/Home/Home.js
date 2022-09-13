@@ -13,9 +13,7 @@ import BASE_URL from "constants/BaseUrl";
 
 const Home = () => {
   const { movies, name } = useSelector((state) => state.movieDb);
-  React.useEffect(() => {
-    console.log("---------", movies);
-  }, [movies]);
+
   return (
     <Container sx={{ marginTop: 4 }}>
       {name && movies?.total_results !== 0 ? (

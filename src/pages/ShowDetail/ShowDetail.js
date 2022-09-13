@@ -8,7 +8,6 @@ import {
   FormControl,
   InputLabel,
   Container,
-  Button,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -31,7 +30,7 @@ function ShowDetail() {
   );
   // Fetch data
   const { data: episode, loading, error } = useFetch(`/tv/${id}`);
-  const { data: seasonData, loading: isReady } = useFetch(
+  const { data: seasonData } = useFetch(
     `/tv/${id}/season/${seasonNumber}`
   );
   // Methods
@@ -45,7 +44,7 @@ function ShowDetail() {
     setIsAddedToWatchList(
       watchList.some((element) => element.id === Number(id))
     );
-  }, [watchList]);
+  }, [watchList, id]);
   if (loading) return <CenterContainer />;
   if (error) return <Typography variant="h6">{error}</Typography>;
   return (
