@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Box,
   Typography,
-  CardMedia,
   MenuItem,
   Select,
   FormControl,
   InputLabel,
   Container,
-  useTheme,
+  Button,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -20,24 +19,33 @@ import CardSessionDetail from "components/shared/CardSessionDetail";
 import Tag from "components/shared/Tag";
 import CenterContainer from "components/containers/CenterContainer";
 import useFetch from "hooks/useFetch";
+import ColorButton from "components/shared/Button/Button.styles";
 function ShowDetail() {
+  // Variables
   const [seasonNumber, setSeasonNumber] = useState(1);
-  let { id } = useParams();
-  const theme = useTheme();
   const dispatch = useDispatch();
+  let { id } = useParams();
   const { watchList } = useSelector((state) => state.movieDb);
+  const [isAddedToWatchList, setIsAddedToWatchList] = useState(
+    watchList.some((element) => element.id === id)
+  );
+  // Fetch data
   const { data: episode, loading, error } = useFetch(`/tv/${id}`);
   const { data: seasonData, loading: isReady } = useFetch(
     `/tv/${id}/season/${seasonNumber}`
   );
-
+  // Methods
   const addToWatchList = () => {
     dispatch(setWatchList(episode?.data));
   };
   const handleChangeSelect = (event) => {
     setSeasonNumber(event.target.value);
   };
-
+  useEffect(() => {
+    setIsAddedToWatchList(
+      watchList.some((element) => element.id === Number(id))
+    );
+  }, [watchList]);
   if (loading) return <CenterContainer />;
   if (error) return <Typography variant="h6">{error}</Typography>;
   return (
@@ -75,10 +83,12 @@ function ShowDetail() {
               <Typography variant="body1" gutterBottom sx={{ marginBottom: 3 }}>
                 {episode?.data?.overview}
               </Typography>
-              {watchList.some((element) => element.id !== id) ? (
+              {isAddedToWatchList ? (
                 <Tag name={"added to Watchlist"} />
               ) : (
-                <Tag name={"Watchlist"} handelClik={addToWatchList} />
+                <ColorButton variant="contained" onClick={addToWatchList}>
+                  Watchlist
+                </ColorButton>
               )}
             </Grid>
           </Grid>
