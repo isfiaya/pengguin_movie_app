@@ -28,7 +28,7 @@ export default function Header() {
     try {
       const { data } = await axiosTMDB.get(`/search/tv`, { params });
       dispatch(setMovie(data));
-      console.log(data);
+
     } catch (error) {
       console.error(error);
     }
@@ -80,13 +80,13 @@ export default function Header() {
             <Button
               variant="contained"
               color="error"
-
               sx={[
                 {
                   marginLeft: "auto",
                 },
               ]}
             >
+
               <Link
                 to={"/watchlist"}
                 css={{ color: "inherit", textDecoration: "none" }}

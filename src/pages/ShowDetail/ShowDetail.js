@@ -80,7 +80,7 @@ function ShowDetail() {
                   })}
               </Box>
 
-              <Typography variant="body1" gutterBottom sx={{ marginBottom: 3 }}>
+              <Typography variant="body1" gutterBottom sx={{ marginBottom: 3, color: "#fff" }}>
                 {episode?.data?.overview}
               </Typography>
               {isAddedToWatchList ? (

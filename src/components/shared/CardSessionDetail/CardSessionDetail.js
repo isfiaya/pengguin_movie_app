@@ -17,11 +17,13 @@ function CardSessionDetail(props) {
         marginBottom: 3,
         borderRadius: 5,
         cursor: "pointer",
+        transition: "all 300ms ease",
         "&:hover": {
           background: "#363535",
           boxShadow: 3,
           transform: 'scale(0.9)',
-          color: "white"
+          color: "white",
+
         },
       }}
       rowSpacing={1}
