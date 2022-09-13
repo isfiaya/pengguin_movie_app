@@ -29,6 +29,10 @@ const MovieCard = ({ title, img, id, movieData, firstAirDate, voteAverage }) => 
   const dispatch = useDispatch();
   const theme = useTheme();
   const { watchList } = useSelector((state) => state.movieDb);
+
+  const first2Str = String(voteAverage).slice(0, 2)
+  const first2Num = Number(first2Str)
+  // Methods
   const addToWatchList = () => {
     dispatch(setWatchList(movieData));
   };
@@ -90,7 +94,7 @@ const MovieCard = ({ title, img, id, movieData, firstAirDate, voteAverage }) => 
         }}>
           {firstAirDate && <Typography variant="subtitle2" sx={{ color: "#bbafaf" }}>
             {firstAirDate}</Typography>}
-          {voteAverage !== 0 && <CircularProgressWithLabel value={voteAverage * 10} />}
+          {voteAverage !== 0 && <CircularProgressWithLabel value={first2Num * 10} />}
 
         </Box>
         {watchList.some((element) => element.id === id) ? (
