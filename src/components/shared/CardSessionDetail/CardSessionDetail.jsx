@@ -1,12 +1,11 @@
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 import { Grid, Typography, CardMedia } from "@mui/material";
 import React from "react";
-import BASE_URL from 'constants/BaseUrl'
-import ImageNotFound from "assets/image_not_available.png";
-
+import BASE_URL from "@/constants/BaseUrl";
+import ImageNotFound from "@/assets/image_not_available.png";
 
 function CardSessionDetail(props) {
-  const { episodeNumber, stillPath, name, overview } = props
+  const { episodeNumber, stillPath, name, overview } = props;
 
   return (
     <Grid
@@ -21,9 +20,8 @@ function CardSessionDetail(props) {
         "&:hover": {
           background: "#363535",
           boxShadow: 3,
-          transform: 'scale(0.9)',
+          transform: "scale(0.9)",
           color: "white",
-
         },
       }}
       rowSpacing={1}
@@ -36,20 +34,14 @@ function CardSessionDetail(props) {
       <Grid item xs={12} md={3}>
         <CardMedia
           component="img"
-          image={
-            stillPath
-              ? `${BASE_URL}${stillPath}`
-              : ImageNotFound
-          }
+          image={stillPath ? `${BASE_URL}${stillPath}` : ImageNotFound}
           alt="episode image"
           sx={{ borderRadius: 4, paddingBottom: 1 }}
         />
       </Grid>
-      <Grid item xs={12} md={8} sx={{ paddingRight: 3, paddingLeft: 3, }}>
+      <Grid item xs={12} md={8} sx={{ paddingRight: 3, paddingLeft: 3 }}>
         <Typography variant="h6">{name}</Typography>
-        <Typography variant="body1" >
-          {overview}
-        </Typography>
+        <Typography variant="body1">{overview}</Typography>
       </Grid>
     </Grid>
   );
@@ -58,6 +50,6 @@ CardSessionDetail.propTypes = {
   name: PropTypes.string,
   episodeNumber: PropTypes.number,
   stillPath: PropTypes.string,
-  overview: PropTypes.string
-}
+  overview: PropTypes.string,
+};
 export default CardSessionDetail;

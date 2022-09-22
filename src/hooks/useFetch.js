@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { axiosTMDB } from "utils/axios";
+import { axiosTMDB } from "@/utils/axios";
 
 function useFetch(url) {
   const [data, setData] = useState(null);

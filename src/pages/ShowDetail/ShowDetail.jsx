@@ -12,13 +12,13 @@ import {
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import BASE_URL from "constants/BaseUrl";
-import { setWatchList } from "redux/features/movie.slice";
-import CardSessionDetail from "components/shared/CardSessionDetail";
-import Tag from "components/shared/Tag";
-import CenterContainer from "components/containers/CenterContainer";
-import useFetch from "hooks/useFetch";
-import ColorButton from "components/shared/Button/Button.styles";
+import BASE_URL from "@/constants/BaseUrl";
+import { setWatchList } from "@/redux/features/movie.slice";
+import CardSessionDetail from "@/components/shared/CardSessionDetail";
+import Tag from "@/components/shared/Tag";
+import CenterContainer from "@/components/containers/CenterContainer";
+import useFetch from "@/hooks/useFetch";
+import ColorButton from "@/components/shared/Button/Button.styles";
 function ShowDetail() {
   // Variables
   const [seasonNumber, setSeasonNumber] = useState(1);
@@ -30,9 +30,7 @@ function ShowDetail() {
   );
   // Fetch data
   const { data: episode, loading, error } = useFetch(`/tv/${id}`);
-  const { data: seasonData } = useFetch(
-    `/tv/${id}/season/${seasonNumber}`
-  );
+  const { data: seasonData } = useFetch(`/tv/${id}/season/${seasonNumber}`);
   // Methods
   const addToWatchList = () => {
     dispatch(setWatchList(episode?.data));
@@ -79,7 +77,11 @@ function ShowDetail() {
                   })}
               </Box>
 
-              <Typography variant="body1" gutterBottom sx={{ marginBottom: 3, color: "#fff" }}>
+              <Typography
+                variant="body1"
+                gutterBottom
+                sx={{ marginBottom: 3, color: "#fff" }}
+              >
                 {episode?.data?.overview}
               </Typography>
               {isAddedToWatchList ? (

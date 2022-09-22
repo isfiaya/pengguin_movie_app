@@ -1,23 +1,15 @@
-/* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
-/** @jsxImportSource @emotion/react */
 import React, { useEffect } from "react";
-import {
-  TextField,
-  Toolbar,
-  Box,
-  Button,
-  AppBar,
-} from "@mui/material";
+import { TextField, Toolbar, Box, Button, AppBar } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { setMovie, setName } from "redux/features/movie.slice";
-import { setThemeMode } from "redux/features/theme.slice";
+import { setMovie, setName } from "@/redux/features/movie.slice";
+import { setThemeMode } from "@/redux/features/theme.slice";
 import { useTheme } from "@mui/material/styles";
-import { axiosTMDB } from "utils/axios";
+import { axiosTMDB } from "@/utils/axios";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { css } from "@emotion/react";
+// import { css } from "@emotion/react";
 import { useLocation } from "react-router-dom";
-import MaterialUISwitch from "components/shared/Switch/Switch";
+import MaterialUISwitch from "@/components/shared/Switch/Switch";
 export default function Header() {
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -28,7 +20,6 @@ export default function Header() {
     try {
       const { data } = await axiosTMDB.get(`/search/tv`, { params });
       dispatch(setMovie(data));
-
     } catch (error) {
       console.error(error);
     }
@@ -71,9 +62,7 @@ export default function Header() {
                 marginLeft: "auto",
               }}
             >
-              <Link to={"/"} css={{ color: "inherit", textDecoration: "none" }}>
-                Home
-              </Link>
+              <Link to={"/"}>Home</Link>
             </Button>
           ) : (
             <Button
@@ -85,7 +74,6 @@ export default function Header() {
                 },
               ]}
             >
-
               <Link
                 to={"/watchlist"}
                 css={{ color: "inherit", textDecoration: "none" }}

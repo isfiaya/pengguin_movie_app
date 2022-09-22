@@ -1,12 +1,12 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
-import CenterContainer from "components/containers/CenterContainer";
-import { HOME, WATCHLIST, SHOW } from "constants/routes";
-const Header = lazy(() => import("components/Header"));
-const Home = lazy(() => import("pages/Home"));
-const ShowDetail = lazy(() => import("pages/ShowDetail"));
-const WatchList = lazy(() => import("pages/WatchList"));
+import CenterContainer from "../components/containers/CenterContainer";
+import { HOME, WATCHLIST, SHOW } from "../constants/routes";
+const Header = lazy(() => import("../components/Header"));
+const Home = lazy(() => import("../pages/Home"));
+const ShowDetail = lazy(() => import("../pages/ShowDetail"));
+const WatchList = lazy(() => import("../pages/WatchList"));
 
 const RouterConfig = () => {
   return (

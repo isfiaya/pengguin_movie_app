@@ -1,8 +1,4 @@
-/* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
-
-/** @jsxImportSource @emotion/react */
 import React from "react";
-
 import {
   Box,
   Card,
@@ -12,26 +8,35 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import { css } from "@emotion/react";
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
 // import { useHistory  } from "react-router-dom";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import DoDisturbOnOutlinedIcon from "@mui/icons-material/DoDisturbOnOutlined";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { setWatchList, removeFromWatchList } from "redux/features/movie.slice";
+import {
+  setWatchList,
+  removeFromWatchList,
+} from "@/redux/features/movie.slice";
 import { useTheme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import CircularProgressWithLabel from "../Progress/CircularProgressWithLabel";
 
-const MovieCard = ({ title, img, id, movieData, firstAirDate, voteAverage }) => {
+const MovieCard = ({
+  title,
+  img,
+  id,
+  movieData,
+  firstAirDate,
+  voteAverage,
+}) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const { watchList } = useSelector((state) => state.movieDb);
 
-  const first2Str = String(voteAverage).slice(0, 2)
-  const first2Num = Number(first2Str)
+  const first2Str = String(voteAverage).slice(0, 2);
+  const first2Num = Number(first2Str);
   // Methods
   const addToWatchList = () => {
     dispatch(setWatchList(movieData));
@@ -40,16 +45,11 @@ const MovieCard = ({ title, img, id, movieData, firstAirDate, voteAverage }) => 
     dispatch(removeFromWatchList(id));
   };
   return (
-
     <Card sx={{ maxWidth: 345 }}>
       <CardActionArea>
         <Link
           to={{
             pathname: `/show/${id}`,
-          }}
-          css={{
-            color: "inherit",
-            textDecoration: "none",
           }}
         >
           <CardMedia
@@ -68,12 +68,10 @@ const MovieCard = ({ title, img, id, movieData, firstAirDate, voteAverage }) => 
               backgroundImage:
                 "linear-gradient(180deg,transparent,rgba(37,37,37,.61),#111)",
             }}
-          /></Link>
+          />
+        </Link>
       </CardActionArea>
-      <CardContent
-
-      >
-
+      <CardContent>
         <Link
           to={{
             pathname: `/show/${id}`,
@@ -87,15 +85,21 @@ const MovieCard = ({ title, img, id, movieData, firstAirDate, voteAverage }) => 
             {title}
           </Typography>
         </Link>
-        <Box sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center"
-        }}>
-          {firstAirDate && <Typography variant="subtitle2" sx={{ color: "#bbafaf" }}>
-            {firstAirDate}</Typography>}
-          {voteAverage !== 0 && <CircularProgressWithLabel value={first2Num * 10} />}
-
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          {firstAirDate && (
+            <Typography variant="subtitle2" sx={{ color: "#bbafaf" }}>
+              {firstAirDate}
+            </Typography>
+          )}
+          {voteAverage !== 0 && (
+            <CircularProgressWithLabel value={first2Num * 10} />
+          )}
         </Box>
         {watchList.some((element) => element.id === id) ? (
           <Button
@@ -116,17 +120,16 @@ const MovieCard = ({ title, img, id, movieData, firstAirDate, voteAverage }) => 
             variant="text"
             onClick={addToWatchList}
             sx={{
-              color: theme.palette.mode === "dark" ? "white" : "black"
-              , paddingLeft: 0, gap: 1
+              color: theme.palette.mode === "dark" ? "white" : "black",
+              paddingLeft: 0,
+              gap: 1,
             }}
           >
             <AddCircleOutlinedIcon /> Add to watchlist
           </Button>
         )}
-
       </CardContent>
     </Card>
-
   );
 };
 
@@ -136,6 +139,6 @@ MovieCard.propTypes = {
   id: PropTypes.number,
   voteAverage: PropTypes.number,
   firstAirDate: PropTypes.string,
-  movieData: PropTypes.object
-}
+  movieData: PropTypes.object,
+};
 export default MovieCard;
