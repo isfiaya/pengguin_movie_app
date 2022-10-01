@@ -9,7 +9,26 @@ import BASE_URL from "../../constants/BaseUrl";
 
 const Home = () => {
   const { movies, name } = useSelector((state) => state.movieDb);
-
+  const Movies = () => {
+    return (
+      movies?.results?.length &&
+      movies.results.map((movie) => (
+        <MovieCard
+          title={movie.name}
+          img={
+            movie.poster_path
+              ? `${BASE_URL}${movie.backdrop_path || movie.poster_path}`
+              : ImageNotFound
+          }
+          firstAirDate={movie.first_air_date}
+          voteAverage={movie.vote_average}
+          id={movie.id}
+          movieData={movie}
+          key={movie.id}
+        />
+      ))
+    );
+  };
   return (
     <Container sx={{ marginTop: 4 }}>
       {name && movies?.total_results !== 0 ? (
@@ -30,24 +49,7 @@ const Home = () => {
       )}
 
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        {movies?.results?.length
-          ? movies.results.map((movie) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={movie.id}>
-                <MovieCard
-                  title={movie.name}
-                  img={
-                    movie.poster_path
-                      ? `${BASE_URL}${movie.backdrop_path || movie.poster_path}`
-                      : ImageNotFound
-                  }
-                  firstAirDate={movie.first_air_date}
-                  voteAverage={movie.vote_average}
-                  id={movie.id}
-                  movieData={movie}
-                />
-              </Grid>
-            ))
-          : null}
+        <Movies />
       </Grid>
     </Container>
   );

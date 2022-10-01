@@ -7,6 +7,7 @@ import {
   CardMedia,
   Typography,
   Button,
+  Grid,
 } from "@mui/material";
 import PropTypes from "prop-types";
 
@@ -45,91 +46,93 @@ const MovieCard = ({
     dispatch(removeFromWatchList(id));
   };
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
-        <Link
-          to={{
-            pathname: `/show/${id}`,
-          }}
-        >
-          <CardMedia
-            component="img"
-            height="240"
-            image={img}
-            alt="green iguana"
-          />
+    <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Card sx={{ maxWidth: 345 }}>
+        <CardActionArea>
+          <Link
+            to={{
+              pathname: `/show/${id}`,
+            }}
+          >
+            <CardMedia
+              component="img"
+              height="240"
+              image={img}
+              alt="green iguana"
+            />
+            <Box
+              sx={{
+                height: 40,
+                width: "100%",
+                position: "absolute",
+                left: 0,
+                bottom: 0,
+                backgroundImage:
+                  "linear-gradient(180deg,transparent,rgba(37,37,37,.61),#111)",
+              }}
+            />
+          </Link>
+        </CardActionArea>
+        <CardContent>
+          <Link
+            to={{
+              pathname: `/show/${id}`,
+            }}
+            css={{
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            <Typography variant="h6" gutterBottom>
+              {title}
+            </Typography>
+          </Link>
           <Box
             sx={{
-              height: 40,
-              width: "100%",
-              position: "absolute",
-              left: 0,
-              bottom: 0,
-              backgroundImage:
-                "linear-gradient(180deg,transparent,rgba(37,37,37,.61),#111)",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
-          />
-        </Link>
-      </CardActionArea>
-      <CardContent>
-        <Link
-          to={{
-            pathname: `/show/${id}`,
-          }}
-          css={{
-            color: "inherit",
-            textDecoration: "none",
-          }}
-        >
-          <Typography variant="h6" gutterBottom>
-            {title}
-          </Typography>
-        </Link>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          {firstAirDate && (
-            <Typography variant="subtitle2" sx={{ color: "#bbafaf" }}>
-              {firstAirDate}
-            </Typography>
-          )}
-          {voteAverage !== 0 && (
-            <CircularProgressWithLabel value={first2Num * 10} />
-          )}
-        </Box>
-        {watchList.some((element) => element.id === id) ? (
-          <Button
-            variant="text"
-            onClick={removeMovie}
-            sx={[
-              {
+          >
+            {firstAirDate && (
+              <Typography variant="subtitle2" sx={{ color: "#bbafaf" }}>
+                {firstAirDate}
+              </Typography>
+            )}
+            {voteAverage !== 0 && (
+              <CircularProgressWithLabel value={first2Num * 10} />
+            )}
+          </Box>
+          {watchList.some((element) => element.id === id) ? (
+            <Button
+              variant="text"
+              onClick={removeMovie}
+              sx={[
+                {
+                  paddingLeft: 0,
+                  gap: 1,
+                  color: theme.palette.mode === "dark" ? "white" : "black",
+                },
+              ]}
+            >
+              <DoDisturbOnOutlinedIcon /> remove from watchlist
+            </Button>
+          ) : (
+            <Button
+              variant="text"
+              onClick={addToWatchList}
+              sx={{
+                color: theme.palette.mode === "dark" ? "white" : "black",
                 paddingLeft: 0,
                 gap: 1,
-                color: theme.palette.mode === "dark" ? "white" : "black",
-              },
-            ]}
-          >
-            <DoDisturbOnOutlinedIcon /> remove from watchlist
-          </Button>
-        ) : (
-          <Button
-            variant="text"
-            onClick={addToWatchList}
-            sx={{
-              color: theme.palette.mode === "dark" ? "white" : "black",
-              paddingLeft: 0,
-              gap: 1,
-            }}
-          >
-            <AddCircleOutlinedIcon /> Add to watchlist
-          </Button>
-        )}
-      </CardContent>
-    </Card>
+              }}
+            >
+              <AddCircleOutlinedIcon /> Add to watchlist
+            </Button>
+          )}
+        </CardContent>
+      </Card>
+    </Grid>
   );
 };
 
